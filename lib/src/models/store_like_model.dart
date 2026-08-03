@@ -8,7 +8,11 @@ part 'store_like_model.g.dart';
 @JsonSerializable(includeIfNull: false)
 final class StoreLikeModel extends BaseFirebaseModel<StoreLikeModel>
     with Equatable {
-  const StoreLikeModel({this.uid = '', this.createdAt});
+  const StoreLikeModel({
+    this.uid = '',
+    this.createdAt,
+    this.documentId = '',
+  });
 
   const StoreLikeModel.empty() : this();
 
@@ -21,7 +25,8 @@ final class StoreLikeModel extends BaseFirebaseModel<StoreLikeModel>
   final DateTime? createdAt;
 
   @override
-  String get documentId => uid;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final String documentId;
 
   @override
   Map<String, dynamic> toJson() => _$StoreLikeModelToJson(this);
@@ -34,16 +39,24 @@ final class StoreLikeModel extends BaseFirebaseModel<StoreLikeModel>
   StoreLikeModel fromFirebase(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     if (data == null) return const StoreLikeModel.empty();
-    return fromJson(data).copyWith(uid: snapshot.id);
+    return fromJson(data).copyWith(
+      uid: snapshot.id,
+      documentId: snapshot.id,
+    );
   }
 
-  StoreLikeModel copyWith({String? uid, DateTime? createdAt}) {
+  StoreLikeModel copyWith({
+    String? uid,
+    DateTime? createdAt,
+    String? documentId,
+  }) {
     return StoreLikeModel(
       uid: uid ?? this.uid,
       createdAt: createdAt ?? this.createdAt,
+      documentId: documentId ?? this.documentId,
     );
   }
 
   @override
-  List<Object?> get props => [uid, createdAt];
+  List<Object?> get props => [uid, createdAt, documentId];
 }
