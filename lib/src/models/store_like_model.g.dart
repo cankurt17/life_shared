@@ -9,11 +9,13 @@ part of 'store_like_model.dart';
 StoreLikeModel _$StoreLikeModelFromJson(Map<String, dynamic> json) =>
     StoreLikeModel(
       uid: json['uid'] as String? ?? '',
+      documentId: json['documentId'] as String? ?? '',
       createdAt: FirebaseTimeParse.datetimeFromTimestamp(json['createdAt']),
     );
 
 Map<String, dynamic> _$StoreLikeModelToJson(StoreLikeModel instance) =>
     <String, dynamic>{
       'uid': instance.uid,
+      'documentId': instance.documentId,
       'createdAt': FirebaseTimeParse.serverTimestampToJson(instance.createdAt),
     };
